@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2016, The CyanogenMod Project
+ * Copyright (C) 2014, The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,36 +21,31 @@
 *
 */
 
-#define LOG_NDEBUG 0
-#define LOG_PARAMETERS
+//#define LOG_NDEBUG 0
 
 #define LOG_TAG "CameraWrapper"
 #include <cutils/log.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <utils/threads.h>
 #include <utils/String8.h>
 #include <hardware/hardware.h>
 #include <hardware/camera.h>
 #include <camera/Camera.h>
-#include <camera/CameraParameters2.h>
-#include <dlfcn.h>
+#include <camera/CameraParameters.h>
 
-#define BACK_CAMERA_ID 0
-#define FRONT_CAMERA_ID 1
+#define CAMID_PATH "/data/CameraID.txt"
 
-using namespace android;
-
-static Mutex gCameraWrapperLock;
+static android::Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
 
-static bool CAF = false;
+static char **fixed_set_params = NULL;
 
 static int camera_device_open(const hw_module_t *module, const char *name,
         hw_device_t **device);
 static int camera_get_number_of_cameras(void);
 static int camera_get_camera_info(int camera_id, struct camera_info *info);
-static int camera_send_command(struct camera_device * device, int32_t cmd,
-                int32_t arg1, int32_t arg2);
 
 static struct hw_module_methods_t camera_module_methods = {
     .open = camera_device_open
@@ -58,11 +53,11 @@ static struct hw_module_methods_t camera_module_methods = {
 
 camera_module_t HAL_MODULE_INFO_SYM = {
     .common = {
-         .tag = HARDWARE_MODULE_TAG,
+         tag: HARDWARE_MODULE_TAG,
          .module_api_version = CAMERA_MODULE_API_VERSION_1_0,
          .hal_api_version = HARDWARE_HAL_API_VERSION,
          .id = CAMERA_HARDWARE_MODULE_ID,
-         .name = "Universal5410 Camera Wrapper",
+         .name = "Exynos5420 Camera Wrapper",
          .author = "The CyanogenMod Project",
          .methods = &camera_module_methods,
          .dso = NULL, /* remove compilation warnings */
@@ -73,9 +68,6 @@ camera_module_t HAL_MODULE_INFO_SYM = {
     .set_callbacks = NULL, /* remove compilation warnings */
     .get_vendor_tag_ops = NULL, /* remove compilation warnings */
     .open_legacy = NULL, /* remove compilation warnings */
-    .set_torch_mode = NULL, /* remove compilation warnings */
-    .init = NULL, /* remove compilation warnings */
-    .reserved = {0}, /* remove compilation warnings */
 };
 
 typedef struct wrapper_camera_device {
@@ -91,9 +83,36 @@ typedef struct wrapper_camera_device {
 
 #define CAMERA_ID(device) (((wrapper_camera_device_t *)(device))->id)
 
-static char *camera_get_parameters(struct camera_device *device);
-static int camera_set_parameters(struct camera_device *device,
-        const char *params);
+static void fix_camera_id_permissions()
+{
+    FILE* camidfile;
+    int amode;
+    int ret = -1;
+    camidfile = fopen(CAMID_PATH, "w");
+    if (camidfile == 0) {
+        fprintf(stderr, "open(%s) failed\n", CAMID_PATH);
+        ALOGE("Can't open %s\n", CAMID_PATH);
+    } else {
+        ALOGD("Setting permissions of %s\n", CAMID_PATH);
+        
+        /* write permissions for the file owner */
+        amode = S_IWUSR;
+        ret = chmod(CAMID_PATH, amode);
+        
+        /* owner: media; group: system */
+        char* chown_cmd = (char*) malloc(strlen("chown media ") + strlen(CAMID_PATH) + 1);
+        char* chgrp_cmd = (char*) malloc(strlen("chgrp system ") + strlen(CAMID_PATH) + 1);
+        sprintf(chown_cmd, "chown media %s", CAMID_PATH);
+        sprintf(chgrp_cmd, "chgrp system %s", CAMID_PATH);
+        system(chown_cmd);
+        system(chgrp_cmd);
+        
+        if (ret != 0) {
+            fprintf(stderr, "chmod() on file %s failed\n", CAMID_PATH);
+            ALOGE("Can't set permissions on %s\n", CAMID_PATH);
+        }
+    }
+}
 
 static int check_vendor_module()
 {
@@ -102,13 +121,82 @@ static int check_vendor_module()
 
     if (gVendorModule)
         return 0;
+    
+    /* fix permissions on the camera_id file before attempting to open the HAL */
+    fix_camera_id_permissions();
 
     rv = hw_get_module_by_class("camera", "vendor",
             (const hw_module_t**)&gVendorModule);
-    if (rv) {
-        ALOGE("failed to open vendor camera module %d", rv);
-    }
+    if (rv)
+        ALOGE("failed to open vendor camera module");
     return rv;
+}
+
+static char *camera_fixup_getparams(int id, const char *settings)
+{
+    android::CameraParameters params;
+    params.unflatten(android::String8(settings));
+
+#if !LOG_NDEBUG
+    ALOGV("%s: original parameters:", __FUNCTION__);
+    params.dump();
+#endif
+
+    /* Convert to Qualcomm-style max parameters */
+    if (params.get("contrast-max")) {
+        params.set("max-contrast", params.get("contrast-max"));
+    }
+    if (params.get("saturation-max")) {
+        params.set("max-saturation", params.get("saturation-max"));
+    }
+    if (params.get("sharpness-max")) {
+        params.set("max-sharpness", params.get("sharpness-max"));
+    }
+
+#if !LOG_NDEBUG
+    ALOGV("%s: fixed parameters:", __FUNCTION__);
+    params.dump();
+#endif
+
+    android::String8 strParams = params.flatten();
+    char *ret = strdup(strParams.string());
+
+    return ret;
+}
+
+static char *camera_fixup_setparams(int id, const char *settings)
+{
+    android::CameraParameters params;
+    params.unflatten(android::String8(settings));
+
+#if !LOG_NDEBUG
+    ALOGV("%s: original parameters:", __FUNCTION__);
+    params.dump();
+#endif
+
+    /* Convert to Qualcomm-style max/min parameters */
+    if (params.get("max-contrast")) {
+        params.set("contrast-max", params.get("max-contrast"));
+    }
+    if (params.get("max-saturation")) {
+        params.set("saturation-max", params.get("max-saturation"));
+    }
+    if (params.get("max-sharpness")) {
+        params.set("sharpness-max", params.get("max-sharpness"));
+    }
+
+#if !LOG_NDEBUG
+    ALOGV("%s: fixed parameters:", __FUNCTION__);
+    params.dump();
+#endif
+
+    android::String8 strParams = params.flatten();
+    if (fixed_set_params[id])
+        free(fixed_set_params[id]);
+    fixed_set_params[id] = strdup(strParams.string());
+    char *ret = fixed_set_params[id];
+
+    return ret;
 }
 
 /*******************************************************************
@@ -278,20 +366,19 @@ static int camera_auto_focus(struct camera_device *device)
     if (!device)
         return -EINVAL;
 
+
     return VENDOR_CALL(device, auto_focus);
 }
 
 static int camera_cancel_auto_focus(struct camera_device *device)
 {
-    int ret = 0;
-
     ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
             (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
 
     if (!device)
         return -EINVAL;
 
-    return ret;
+    return VENDOR_CALL(device, cancel_auto_focus);
 }
 
 static int camera_take_picture(struct camera_device *device)
@@ -317,7 +404,7 @@ static int camera_cancel_picture(struct camera_device *device)
 }
 
 static int camera_set_parameters(struct camera_device *device,
-        const char *settings)
+        const char *params)
 {
     ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
             (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
@@ -325,37 +412,11 @@ static int camera_set_parameters(struct camera_device *device,
     if (!device)
         return -EINVAL;
 
-    int id = CAMERA_ID(device);
+    char *tmp = NULL;
+    tmp = camera_fixup_setparams(CAMERA_ID(device), params);
 
-#ifdef LOG_PARAMETERS
-    ALOGV("Raw set_parameters");
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, settings);
-#endif
-
-    CameraParameters2 params;
-    params.unflatten(String8(settings));
-
-    bool isVideo = false;
-    if (params.get(CameraParameters::KEY_RECORDING_HINT))
-        isVideo = !strcmp(params.get(CameraParameters::KEY_RECORDING_HINT), "true");
-
-    /* Are we in continuous focus mode? */
-    if (strcmp(params.get(CameraParameters::KEY_FOCUS_MODE), "infinity") &&
-       strcmp(params.get(CameraParameters::KEY_FOCUS_MODE), "fixed") && (id == BACK_CAMERA_ID)) {
-        CAF = true;
-    } else {
-        /* Front camera or manually set infinity mode on rear cam */
-        CAF = false;
-    }
-
-    String8 strParams = params.flatten();
-
-#ifdef LOG_PARAMETERS
-    ALOGV("Fixed set_parameters");
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, strParams);
-#endif
-
-    return VENDOR_CALL(device, set_parameters, strParams);
+    int ret = VENDOR_CALL(device, set_parameters, tmp);
+    return ret;
 }
 
 static char *camera_get_parameters(struct camera_device *device)
@@ -366,26 +427,13 @@ static char *camera_get_parameters(struct camera_device *device)
     if (!device)
         return NULL;
 
-    int id = CAMERA_ID(device);
+    char *params = VENDOR_CALL(device, get_parameters);
 
-    char *parameters = VENDOR_CALL(device, get_parameters);
+    char *tmp = camera_fixup_getparams(CAMERA_ID(device), params);
+    VENDOR_CALL(device, put_parameters, params);
+    params = tmp;
 
-#ifdef LOG_PARAMETERS
-    ALOGV("Raw get_parameters");
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, parameters);
-#endif
-
-    wrapper_camera_device_t *wrapper = (wrapper_camera_device_t *)device;
-
-    CameraParameters2 params;
-    params.unflatten(String8(parameters));
-
-    params.set("fast-fps-mode", "0");
-
-    char *ret = strdup(params.flatten().string());
-    VENDOR_CALL(device, put_parameters, parameters);
-
-    return ret;
+    return params;
 }
 
 static void camera_put_parameters(struct camera_device *device, char *params)
@@ -393,9 +441,8 @@ static void camera_put_parameters(struct camera_device *device, char *params)
     ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
             (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
 
-    if (params) {
+    if (params)
         free(params);
-    }
 }
 
 static int camera_send_command(struct camera_device *device,
@@ -406,11 +453,6 @@ static int camera_send_command(struct camera_device *device,
 
     if (!device)
         return -EINVAL;
-
-    if(cmd == CAMERA_CMD_ENABLE_FOCUS_MOVE_MSG) {
-        ALOGV("nardshu: ignoring send_command CAMERA_CMD_ENABLE_FOCUS_MOVE_MSG");
-        return 0;
-    }
 
     return VENDOR_CALL(device, send_command, cmd, arg1, arg2);
 }
@@ -446,11 +488,16 @@ static int camera_device_close(hw_device_t *device)
 
     ALOGV("%s", __FUNCTION__);
 
-    Mutex::Autolock lock(gCameraWrapperLock);
+    android::Mutex::Autolock lock(gCameraWrapperLock);
 
     if (!device) {
         ret = -EINVAL;
         goto done;
+    }
+
+    for (int i = 0; i < camera_get_number_of_cameras(); i++) {
+        if (fixed_set_params[i])
+            free(fixed_set_params[i]);
     }
 
     wrapper_dev = (wrapper_camera_device_t*) device;
@@ -485,7 +532,7 @@ static int camera_device_open(const hw_module_t *module, const char *name,
     wrapper_camera_device_t *camera_device = NULL;
     camera_device_ops_t *camera_ops = NULL;
 
-    Mutex::Autolock lock(gCameraWrapperLock);
+    android::Mutex::Autolock lock(gCameraWrapperLock);
 
     ALOGV("%s", __FUNCTION__);
 
@@ -495,6 +542,14 @@ static int camera_device_open(const hw_module_t *module, const char *name,
 
         cameraid = atoi(name);
         num_cameras = gVendorModule->get_number_of_cameras();
+
+        fixed_set_params = (char **) malloc(sizeof(char *) * num_cameras);
+        if (!fixed_set_params) {
+            ALOGE("parameter memory allocation fail");
+            rv = -ENOMEM;
+            goto fail;
+        }
+        memset(fixed_set_params, 0, sizeof(char *) * num_cameras);
 
         if (cameraid > num_cameras) {
             ALOGE("camera service provided cameraid out of bounds, "
@@ -543,28 +598,22 @@ static int camera_device_open(const hw_module_t *module, const char *name,
         camera_ops->enable_msg_type = camera_enable_msg_type;
         camera_ops->disable_msg_type = camera_disable_msg_type;
         camera_ops->msg_type_enabled = camera_msg_type_enabled;
-
         camera_ops->start_preview = camera_start_preview;
         camera_ops->stop_preview = camera_stop_preview;
         camera_ops->preview_enabled = camera_preview_enabled;
         camera_ops->store_meta_data_in_buffers = camera_store_meta_data_in_buffers;
-
         camera_ops->start_recording = camera_start_recording;
         camera_ops->stop_recording = camera_stop_recording;
         camera_ops->recording_enabled = camera_recording_enabled;
         camera_ops->release_recording_frame = camera_release_recording_frame;
-
         camera_ops->auto_focus = camera_auto_focus;
         camera_ops->cancel_auto_focus = camera_cancel_auto_focus;
-
         camera_ops->take_picture = camera_take_picture;
         camera_ops->cancel_picture = camera_cancel_picture;
-
         camera_ops->set_parameters = camera_set_parameters;
         camera_ops->get_parameters = camera_get_parameters;
         camera_ops->put_parameters = camera_put_parameters;
         camera_ops->send_command = camera_send_command;
-
         camera_ops->release = camera_release;
         camera_ops->dump = camera_dump;
 
