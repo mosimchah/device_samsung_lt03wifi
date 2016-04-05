@@ -7,7 +7,7 @@
     },
     {
         "remote": "github",
-        "repository": "Orion116/vendor_samsung_lt03wifi",
+        "repository": "Orion116/android_vendor_samsung_lt03wifi",
         "target_path": "vendor/samsung/lt03wifi",
 	"branch": "cm-13.0"
     },
