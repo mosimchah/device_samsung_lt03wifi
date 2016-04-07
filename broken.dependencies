@@ -28,5 +28,23 @@
         "repository": "CyanogenMod/android_hardware_samsung_slsi-cm_exynos5",
         "target_path": "hardware/samsung_slsi-cm/exynos5",
 	"branch": "cm-13.0"
+    },
+    {
+        "remote": "github",
+        "repository": "CyanogenMod/android_hardware_samsung_slsi-cm_exynos5420",
+        "target_path": "hardware/samsung_slsi-cm/exynos5420",
+	"branch": "cm-13.0"
+    },
+    {
+        "remote": "github",
+        "repository": "CyanogenMod/android_hardware_samsung_slsi-cm_openmax",
+        "target_path": "hardware/samsung_slsi-cm/openmax",
+	"branch": "cm-13.0"
+    },
+    {
+        "remote": "github",
+        "repository": "CyanogenMod/android_external_curl",
+        "target_path": "external/curl",
+	"branch": "cm-13.0"
     }
 ]

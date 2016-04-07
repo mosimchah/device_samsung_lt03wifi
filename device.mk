@@ -32,7 +32,8 @@ PRODUCT_PACKAGES += \
     libfimg
 
 PRODUCT_PACKAGES += \
-    libstlport
+    libstlport \
+    libcurl
 
 PRODUCT_PACKAGES += \
     gralloc.exynos5
