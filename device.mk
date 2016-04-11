@@ -130,6 +130,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.isUsbOtgEnabled=true
+
 # Network tools
 PRODUCT_PACKAGES += \
     libpcap \
@@ -228,10 +231,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.android.dataroaming=false
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
-    persist.sys.usb.config=mtp \
     ro.allow.mock.location=1 \
-    ro.debug_level=0x4948 \
-    ro.secure=0
+    ro.debug_level=0x4948
 
 # adb has root
 ADDITIONAL_DEFAULT_PROPERTIES += \
@@ -257,8 +258,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapminfree=2m \
     dalvik.vm.heapmaxfree=8m \
 
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    ro.sys.fw.dex2oat_thread_count=4
+# ADDITIONAL_DEFAULT_PROPERTIES += \
+#    ro.sys.fw.dex2oat_thread_count=4
 
 # HWUI CACHES
 PRODUCT_PROPERTY_OVERRIDES += \
