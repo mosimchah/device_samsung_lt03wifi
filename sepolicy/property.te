@@ -1,2 +1,6 @@
 # Camera
+<<<<<<< HEAD
 type camera_prop, property_type;
+=======
+type camera_prop, property_type;
+>>>>>>> 7e8abdd... Move Camera ID file to a sane location
