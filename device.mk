@@ -231,8 +231,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.android.dataroaming=false
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
+    persist.sys.usb.config=mtp \
     ro.allow.mock.location=1 \
-    ro.debug_level=0x4948
+    ro.debug_level=0x4948 \
+    ro.secure=0
 
 # adb has root
 ADDITIONAL_DEFAULT_PROPERTIES += \

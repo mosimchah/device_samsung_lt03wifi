@@ -31,7 +31,7 @@
     },
     {
         "remote": "github",
-        "repository": "CyanogenMod/android_hardware_samsung_slsi-cm_exynos5420",
+        "repository": "CM-Tab-S/android_hardware_samsung_slsi-cm_exynos5420",
         "target_path": "hardware/samsung_slsi-cm/exynos5420",
 	"branch": "cm-13.0"
     },
