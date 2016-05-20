@@ -82,7 +82,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # hardware/samsung/AdvancedDisplay (MDNIE)
 PRODUCT_PACKAGES += \
     AdvancedDisplay
->>>>>>> 105456f... Move Camera ID file to a sane location
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
