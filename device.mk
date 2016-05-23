@@ -67,9 +67,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     af.fast_track_multiplier=1
 
-PRODUCT_PACKAGES += \
-    libsamsung_symbols
-
 # Camera
 PRODUCT_PACKAGES += \
     camera.universal5420 \
