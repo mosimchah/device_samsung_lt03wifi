@@ -7,9 +7,9 @@
     },
     {
         "remote": "github",
-        "repository": "Orion116/android_vendor_samsung_lt03wifi",
-        "target_path": "vendor/samsung/lt03wifi",
-	"branch": "cm-13.0"
+        "repository": "Project-lt03wifi/proprietary_vendor_samsung",
+        "target_path": "vendor/samsung",
+	"branch": "lt03wifi"
     },
     {
         "remote": "github",
@@ -31,7 +31,7 @@
     },
     {
         "remote": "github",
-        "repository": "CM-Tab-S/android_hardware_samsung_slsi-cm_exynos5420",
+        "repository": "Project-lt03wifi/android_hardware_samsung_slsi-cm_exynos5420",
         "target_path": "hardware/samsung_slsi-cm/exynos5420",
 	"branch": "cm-13.0"
     },
