@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common Broken stuff.
-$(call inherit-product, vendor/broken/config/common_full_tablet_wifionly.mk)
+# Inherit some common slim stuff.
+$(call inherit-product, vendor/slim/config/common_full_tablet_wifionly.mk)
 
 # Inherit from lt03wifi device
 $(call inherit-product, device/samsung/lt03wifi/device.mk)
