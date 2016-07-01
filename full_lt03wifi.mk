@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Inherit some common slim stuff.
-$(call inherit-product, vendor/slim/config/common_full_tablet_wifionly.mk)
+$(call inherit-product, vendor/slim/config/common.mk)
 
 # Inherit from lt03wifi device
 $(call inherit-product, device/samsung/lt03wifi/device.mk)
