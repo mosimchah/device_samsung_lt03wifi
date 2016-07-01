@@ -1,7 +1,7 @@
 $(call inherit-product, device/samsung/lt03wifi/full_lt03wifi.mk)
 
 # Inherit some common slim stuff.
-$(call inherit-product, vendor/slim/config/common_full_tablet_wifionly.mk)
+$(call inherit-product, vendor/slim/config/common.mk)
 
 PRODUCT_NAME := slim_lt03wifi
 PRODUCT_DEVICE := lt03wifi
