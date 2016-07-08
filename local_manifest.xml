@@ -7,6 +7,7 @@
   <project name="Orion116/android_vendor_samsung_lt03wifi" path="vendor/samsung/lt03wifi" remote="github" revision="cm-13.0" />
   <project name="CyanogenMod/android_hardware_samsung" path="hardware/samsung" remote="github" revision="cm-13.0" />
   <project name="CyanogenMod/android_hardware_samsung_slsi-cm_exynos" path="hardware/samsung_slsi-cm/exynos" remote="github" revision="cm-13.0" />
+  <project path="hardware/samsung_slsi/exynos5" name="SlimRoms/hardware_samsung_slsi_exynos5" remote="github" revision="mm6.0" />
   <project name="CM-Tab-S/android_hardware_samsung_slsi-cm_exynos5420" path="hardware/samsung_slsi-cm/exynos5420" remote="github" revision="cm-13.0" />
   <project name="CyanogenMod/android_hardware_samsung_slsi-cm_openmax" path="hardware/samsung_slsi-cm/openmax" remote="github" revision="cm-13.0" />
   <project name="CyanogenMod/android_external_curl" path="external/curl" remote="github" revision="cm-13.0" />
