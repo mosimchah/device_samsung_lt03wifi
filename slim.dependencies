@@ -1,5 +1,11 @@
 [
     {
+    "remote":      "github",
+    "repository":  "mosimchah/device_samsung_lt03wifi",
+    "target_path": "device/samsung/lt03wifi",
+    "branch":      "m6.0.1"
+    },
+    {
         "remote": "github",
         "repository": "Project-lt03wifi/android_kernel_samsung_lt03wifi",
         "target_path": "kernel/samsung/lt03wifi",
