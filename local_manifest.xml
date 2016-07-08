@@ -2,13 +2,6 @@
 <manifest>
   <remote fetch="https://bitbucket.org/" name="bb" />
   <remote fetch="git://github.com/" name="github" review="https://review.slimroms.org/" />
-  <project name="SlimShadys/device_lge_w7" path="device/lge/w7" remote="github" revision="mm6.0" />
-  <project name="SlimShadys/device_lge_msm8226-common" path="device/lge/msm8226-common" remote="github" revision="mm6.0" />
-  <project name="GrinningFerret/android_kernel_lge_msm8226" path="kernel/lge/msm8226" remote="github" revision="mm6.0" />
-  <project name="TheMuppets/proprietary_vendor_lge" path="vendor/lge" remote="github" revision="cm-13.0" />
-  <project name="SlimRoms/android_external_sony_boringssl-compat" path="external/sony/boringssl-compat" remote="github" revision="mm6.0" />
-  <project name="DespairFactor/arm-eabi-4.9" path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.9-uber" remote="bb" revision="master" />
-  <project name="DespairFactor/arm-linux-androideabi-4.9" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9-uber" remote="bb" revision="master" />
   <project name="mosimchah/device_samsung_lt03wifi" path="device/samsung/lt03wifi" remote="github" revision="m6.0.1" />
   <project name="Orion116/android_kernel_samsung_lt03wifi" path="kernel/samsung/lt03wifi" remote="github" revision="cm-13.0" />
   <project name="Orion116/android_vendor_samsung_lt03wifi" path="vendor/samsung/lt03wifi" remote="github" revision="cm-13.0" />
