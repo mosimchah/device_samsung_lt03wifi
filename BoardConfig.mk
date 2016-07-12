@@ -193,3 +193,8 @@ WIFI_BAND                        := 802_11_ABG
 # SELinux
 BOARD_SEPOLICY_DIRS := \
     device/samsung/lt03wifi/sepolicy
+    
+# Liquid stuff
+LIQUID_CHANGELOG := true
+LIQUIFY := true
+GRAPHITE := true
