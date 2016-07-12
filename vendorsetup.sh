@@ -1,1 +1,1 @@
-add_lunch_combo slim_lt03wifi-userdebug
+add_lunch_combo liquid_lt03wifi-userdebug
