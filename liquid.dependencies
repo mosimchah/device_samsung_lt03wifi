@@ -29,11 +29,11 @@
         "target_path": "hardware/samsung_slsi-cm/exynos",
 	"branch": "cm-13.0"
     },
-    {
+     {
         "remote": "github",
-        "repository": "SlimRoms/hardware_samsung_slsi_exynos5",
-        "target_path": "hardware/samsung_slsi/exynos5",
-	"branch": "mm6.0"
+        "repository": "CyanogenMod/android_hardware_samsung_slsi-cm_exynos5",
+        "target_path": "hardware/samsung_slsi-cm/exynos5",
+	"branch": "cm-13.0"
     },
     {
         "remote": "github",
