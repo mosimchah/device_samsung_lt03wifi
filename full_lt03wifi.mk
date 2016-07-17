@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common liquid stuff.
-$(call inherit-product, vendor/liquid/config/common_tablet_wifionly.mk)
+# Inherit some common orion stuff.
+$(call inherit-product, vendor/orion/config/common_tablet_wifionly.mk)
 
 # Inherit from lt03wifi device
 $(call inherit-product, device/samsung/lt03wifi/device.mk)
