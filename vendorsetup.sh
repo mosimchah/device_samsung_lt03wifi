@@ -1,1 +1,1 @@
-add_lunch_combo orion_lt03wifi-userdebug
+add_lunch_combo tesla_lt03wifi-userdebug
