@@ -1,5 +1,5 @@
 # Inherit some common orion stuff.
-$(call inherit-product, vendor/orion/config/common_tablet_wifionly.mk)
+$(call inherit-product, vendor/orion/config/common_full_tablet_wifionly.mk)
 
 #Release name
 PRODUCT_RELEASE_NAME :=SAMSUNG SM-P600
