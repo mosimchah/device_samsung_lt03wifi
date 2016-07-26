@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Inherit some common orion stuff.
-$(call inherit-product, vendor/orion/config/common_tablet_wifionly.mk)
+$(call inherit-product, vendor/orion/config/common_full_tablet_wifionly.mk)
 
 # Inherit from lt03wifi device
 $(call inherit-product, device/samsung/lt03wifi/device.mk)
