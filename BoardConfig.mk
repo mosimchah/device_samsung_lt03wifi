@@ -61,6 +61,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_CONFIG := orbiter_lt03wifi_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03wifi
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9.4/bin
+KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
 
 # Charger/Healthd
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
