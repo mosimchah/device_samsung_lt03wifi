@@ -108,7 +108,7 @@ BOARD_USES_CEC := true
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 # Hardware
-BOARD_HARDWARE_CLASS += device/samsung/lt03wifi/cmhw
+# BOARD_HARDWARE_CLASS += device/samsung/lt03wifi/cmhw
 
 # Samsung LSI OpenMAX
 COMMON_GLOBAL_CFLAGS += -DUSE_NATIVE_SEC_NV12TILED # use format from fw/native
