@@ -3,11 +3,11 @@
         "remote": "github",
         "repository": "Project-lt03wifi/kernel_lt03wifi_orbiter",
         "target_path": "kernel/samsung/lt03wifi",
-	"branch": "valex_master"
+	"branch": "orbiter"
     },
     {
         "remote": "github",
-        "repository": "Project-lt03wifi/proprietary_vendor_samsung",
+        "repository": "exynos5420/proprietary_vendor_samsung",
         "target_path": "vendor/samsung",
 	"branch": "lt03wifi"
     },
@@ -31,7 +31,7 @@
     },
     {
         "remote": "github",
-        "repository": "Project-lt03wifi/android_hardware_samsung_slsi-cm_exynos5420",
+        "repository": "exynos5420/android_hardware_samsung_slsi-cm_exynos5420",
         "target_path": "hardware/samsung_slsi-cm/exynos5420",
 	"branch": "cm-13.0"
     },
