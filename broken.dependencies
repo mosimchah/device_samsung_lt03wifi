@@ -1,19 +1,19 @@
 [
     {
         "remote": "github",
-        "repository": "Project-lt03wifi/kernel_lt03wifi_orbiter",
-        "target_path": "kernel/samsung/lt03wifi",
+        "repository": "Project-n1awifi/kernel_n1awifi_orbiter",
+        "target_path": "kernel/samsung/n1awifi",
 	"branch": "orbiter"
     },
     {
         "remote": "github",
         "repository": "exynos5420/proprietary_vendor_samsung",
         "target_path": "vendor/samsung",
-	"branch": "lt03wifi"
+	"branch": "n1awifi"
     },
     {
         "remote": "github",
-        "repository": "Project-lt03wifi/android_hardware_samsung",
+        "repository": "Project-n1awifi/android_hardware_samsung",
         "target_path": "hardware/samsung",
 	"branch": "m6.0"
     },

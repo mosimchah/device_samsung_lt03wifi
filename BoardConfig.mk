@@ -14,10 +14,10 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := device/samsung/lt03wifi
+LOCAL_PATH := device/samsung/n1awifi
 
 # inherit from the proprietary version
--include vendor/samsung/lt03wifi/BoardConfigVendor.mk
+-include vendor/samsung/n1awifi/BoardConfigVendor.mk
 
 # Platform
 BOARD_VENDOR := samsung
@@ -43,7 +43,7 @@ BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Bootloader
-TARGET_OTA_ASSERT_DEVICE := lt033g,lt03wifi,lt03wifiue
+TARGET_OTA_ASSERT_DEVICE := lt033g,lt03wifi,lt03wifiue, n1awifi
 
 # Camera
 BOARD_NEEDS_MEMORYHEAPION := true
@@ -58,8 +58,8 @@ TARGET_PROVIDES_LIBLIGHT := true
 # Kernel
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
-TARGET_KERNEL_CONFIG := orbiter_lt03wifi_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/lt03wifi
+TARGET_KERNEL_CONFIG := orbiter_n1awifi_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/n1awifi
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9.4/bin
 KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
@@ -108,7 +108,7 @@ BOARD_USES_CEC := true
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 # Hardware
-# BOARD_HARDWARE_CLASS += device/samsung/lt03wifi/cmhw
+# BOARD_HARDWARE_CLASS += device/samsung/n1awifi/cmhw
 
 # Samsung LSI OpenMAX
 COMMON_GLOBAL_CFLAGS += -DUSE_NATIVE_SEC_NV12TILED # use format from fw/native
@@ -201,4 +201,4 @@ COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 
 # SELinux
 BOARD_SEPOLICY_DIRS := \
-    device/samsung/lt03wifi/sepolicy
+    device/samsung/n1awifi/sepolicy
