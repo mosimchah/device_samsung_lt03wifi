@@ -58,8 +58,8 @@ TARGET_PROVIDES_LIBLIGHT := true
 # Kernel
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
-TARGET_KERNEL_CONFIG := orbiter_n1awifi_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/n1awifi
+TARGET_KERNEL_CONFIG := cyanogenmod_deathly_n1awifi_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/exynos5420
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9.4/bin
 KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
