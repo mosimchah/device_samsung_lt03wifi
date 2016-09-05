@@ -39,7 +39,7 @@ TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
+BOARD_CUSTOM_BT_CONFIG := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Bootloader
@@ -65,11 +65,16 @@ BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_CONFIG := cyanogenmod_deathly_n1awifi_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/exynos5420
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+<<<<<<< HEAD
 KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9.4/bin
 KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
 
 # Rom Toolchain
 TARGET_GCC_VERSION_EXP := 4.9
+=======
+KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9/bin
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
+>>>>>>> c6fba8d... Bringup to N
 
 # Charger/Healthd
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
@@ -136,12 +141,9 @@ TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 # Hardware
 # BOARD_HARDWARE_CLASS += device/samsung/n1awifi/cmhw
 
-<<<<<<< HEAD
 # Samsung LSI OpenMAX
 BOARD_GLOBAL_CFLAGS += -DUSE_NATIVE_SEC_NV12TILED # use format from fw/native
 BOARD_GLOBAL_CFLAGS += -DWIDEVINE_PLUGIN_PRE_NOTIFY_ERROR
-=======
->>>>>>> ba5b828... CM14 - Fix lunch
 
 # Samsung OpenMAX Video
 BOARD_USE_STOREMETADATA := true
@@ -191,6 +193,7 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/class/android_usb/android0/f_mass_storag
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Recovery
+#TARGET_RECOVERY_DENSITY := hdpi
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.universal5420
 
 # SurfaceFlinger
@@ -228,8 +231,8 @@ WIFI_BAND                        := 802_11_ABG
 BOARD_HARDWARE_CLASS += hardware/samsung/cmhw
 
 # Force the screenshot path to CPU consumer (fix glitches)
-# TODO: Reenable this
-#COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
+# TODO: Enable this after syncing
+#BOARD_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 
 # SELinux
 BOARD_SEPOLICY_DIRS := \

@@ -75,6 +75,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     camera2.portability.force_api=1
 
+# hardware/samsung/AdvancedDisplay (MDNIE)
+PRODUCT_PACKAGES += \
+    AdvancedDisplay
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -210,8 +213,7 @@ PRODUCT_PACKAGES += \
     wifiloader
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.interface=wlan0 \
-    ro.data.large_tcp_window_size=true
+    wifi.interface=wlan0
 
 # for off charging mode
 PRODUCT_PACKAGES += \
