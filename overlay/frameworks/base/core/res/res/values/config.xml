@@ -229,8 +229,8 @@
             64 - Volume rocker
          For example, a device with Home, Back and Menu keys would set this
          config to 7.
-    On Samsung SM-P600/P601 following keys: 1(Home) + 2(Back) + 4(Menu) + 64(Volume) = 71 -->
-    <integer name="config_deviceHardwareKeys">67</integer>
+    On Samsung SM-P600/P601 following keys: 1(Home) + 2(Back) + 4(Menu) + 64(Volume) = 71 
+    <integer name="config_deviceHardwareKeys">67</integer> -->
     <!-- integer name="config_deviceHardwareKeys">71</integer -->
 
     <!-- Hardware keys present on the device with the ability to wake, stored as a bit field.
@@ -281,8 +281,8 @@
     <!-- reference volume index for music stream to limit headphone volume and display warning -->
     <integer name="config_safe_media_volume_index">7</integer>
 
-    <!-- Boolean to enable stylus gestures  -->
-    <bool name="config_stylusGestures">true</bool>
+    <!-- Boolean to enable stylus gestures  
+    <bool name="config_stylusGestures">true</bool>  -->
 
     <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
          autodetected from the Configuration. -->
@@ -297,7 +297,7 @@
     <bool name="config_enableAutoPowerModes">true</bool>
 
     <!-- Older rotation sensors are not setting event.timestamp correctly. Setting to
-         true will use SystemClock.elapsedRealtimeNanos() to set timestamp. -->
-    <bool name="config_useSystemClockforSensors">true</bool>
+         true will use SystemClock.elapsedRealtimeNanos() to set timestamp. 
+    <bool name="config_useSystemClockforSensors">true</bool>  -->
 
 </resources>
