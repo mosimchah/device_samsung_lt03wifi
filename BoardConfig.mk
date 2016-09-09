@@ -48,13 +48,10 @@ TARGET_OTA_ASSERT_DEVICE := lt033g,lt03wifi,lt03wifiue,n1awifi
 # Camera
 BOARD_CAMERA_SNUMINTS := 28
 BOARD_NEEDS_MEMORYHEAPION := true
-<<<<<<< HEAD
 BOARD_GLOBAL_CFLAGS += -DCAMERA_SNUMINTS=$(BOARD_CAMERA_SNUMINTS)
-COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
-COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
-COMMON_GLOBAL_CFLAGS += -DSAMSUNG_DVFS
-=======
->>>>>>> ba5b828... CM14 - Fix lunch
+# COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
+# COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
+# COMMON_GLOBAL_CFLAGS += -DSAMSUNG_DVFS
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -65,16 +62,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_CONFIG := cyanogenmod_deathly_n1awifi_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/exynos5420
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-<<<<<<< HEAD
-KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9.4/bin
-KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
-
-# Rom Toolchain
-TARGET_GCC_VERSION_EXP := 4.9
-=======
 KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-cortex_a15-linux-gnueabihf-linaro_4.9/bin
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
->>>>>>> c6fba8d... Bringup to N
 
 # Charger/Healthd
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
@@ -82,12 +71,6 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 BACKLIGHT_PATH := "/sys/class/backlight/panel/brightness"
 
-<<<<<<< HEAD
-# Build the platform with Clang
-# USE_CLANG_PLATFORM_BUILD := true
-
-=======
->>>>>>> ba5b828... CM14 - Fix lunch
 # We use our lights hal
 TARGET_PROVIDES_LIBLIGHT := true
 
@@ -232,7 +215,7 @@ BOARD_HARDWARE_CLASS += hardware/samsung/cmhw
 
 # Force the screenshot path to CPU consumer (fix glitches)
 # TODO: Enable this after syncing
-#BOARD_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
+BOARD_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 
 # SELinux
 BOARD_SEPOLICY_DIRS := \
