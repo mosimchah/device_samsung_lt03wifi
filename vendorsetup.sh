@@ -1,1 +1,1 @@
-add_lunch_combo orion_n1awifi-userdebug
+add_lunch_combo liquid_n1awifi-userdebug
