@@ -1,4 +1,4 @@
-$(call inherit-product, device/samsung/lt03wifi/full_lt03wifi.mk)
+$(call inherit-product, device/samsung/n1awifi/full_n1awifi.mk)
 
 # Inherit some common liquid stuff.
 $(call inherit-product, vendor/liquid/config/common_tablet_wifionly.mk)
