@@ -22,6 +22,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <pthread.h>
 #include <cutils/log.h>
 #include <hardware/hardware.h>
 #include <hardware/consumerir.h>
@@ -80,10 +81,12 @@ static bool append_number(char **buffer, int *len, int *size, int number)
     return try_append_number(*buffer, len, *size, number);
 }
 
+pthread_mutex_t g_mtx;
 int fd = 0;
 static int consumerir_transmit(UNUSED struct consumerir_device *dev,
    int carrier_freq, const int pattern[], int pattern_len)
 {
+    pthread_mutex_lock(&g_mtx);
     int buffer_len = 0;
     int buffer_size = 128;
     int i;
@@ -114,6 +117,7 @@ static int consumerir_transmit(UNUSED struct consumerir_device *dev,
 
     free(buffer);
 
+    pthread_mutex_unlock(&g_mtx);
     return 0;
 
 error:
@@ -140,6 +144,7 @@ static int consumerir_close(hw_device_t *dev)
 {
     free(dev);
     close(fd);
+    pthread_mutex_destroy(&g_mtx);
     return 0;
 }
 
