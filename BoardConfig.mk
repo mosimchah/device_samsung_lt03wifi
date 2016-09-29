@@ -210,3 +210,11 @@ COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 # SELinux
 BOARD_SEPOLICY_DIRS := \
     device/samsung/n1awifi/sepolicy
+
+# IR
+IR_HAS_ONE_FREQ_RANGE := true
+
+# Liquid stuff
+LIQUID_CHANGELOG := true
+LIQUIFY := true
+GRAPHITE := true
