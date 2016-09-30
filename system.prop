@@ -9,3 +9,6 @@ debug.sf.disable_hwc=1
 
 # Radio
 ro.radio.noril=yes
+
+# HW
+qemu.hw.mainkeys=1
