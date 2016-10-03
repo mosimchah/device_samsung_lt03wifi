@@ -176,7 +176,8 @@ BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0
 TARGET_POWERHAL_VARIANT := samsung
 
 # Enable dex-preoptimization to speed up first boot sequence
-# WITH_DEXPREOPT := true
+WITH_DEXPREOPT := true
+WITH_DEXPREOPT_BOOT_IMG_ONLY := true
 
 # UMS
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/class/android_usb/android0/f_mass_storage/lun%d/file
