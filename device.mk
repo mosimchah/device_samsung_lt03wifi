@@ -85,9 +85,6 @@ PRODUCT_PACKAGES += \
     e2fsck \
     setup_fs
 
-PRODUCT_PACKAGES += \
-    libdmitry
-
 # Touchscreen
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/idc/Synaptics_HID_TouchPad.idc:system/usr/idc/Synaptics_HID_TouchPad.idc \
