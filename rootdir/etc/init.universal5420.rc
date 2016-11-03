@@ -1,9 +1,10 @@
 import init.universal5420.usb.rc
 import init.samsung.rc
 import init.universal5420.wifi.rc
+import init.universal5420.power.rc
 
 on init
-    export LD_SHIM_LIBS "/system/lib/libexynoscamera.so|libsamsung_symbols.so"
+    export LD_SHIM_LIBS "/system/bin/gpsd|libdmitry.so"
 
     # Support legacy paths
     symlink /sdcard /storage/sdcard0
@@ -34,12 +35,14 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1000000:40000 1500000:20000"
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1000000
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 91
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads 85
     write /sys/devices/system/cpu/cpufreq/interactive/check_fast_target_loads "50 1000000:66"
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 9999999
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
     write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 100000
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1000000:40000 1500000:20000"
+    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
 
 on post-fs-data
     setprop vold.post_fs_data_done 1
@@ -231,10 +234,14 @@ on boot
     chown system radio /sys/class/sensors/grip_sensor/onoff
 
 # Permissions Camera
-    chown system radio /sys/class/camera/rear/rear_camfw
-    chown system radio /sys/class/camera/rear/rear_camtype
-    chown system radio /sys/class/camera/flash/rear_flash
     chown system radio /sys/class/camera/rear/isp_core
+    chown system radio /sys/class/camera/rear/rear_calcheck
+    chown system radio /sys/class/camera/rear/rear_camfw
+    chown system radio /sys/class/camera/rear/rear_camfw_full
+    chown system radio /sys/class/camera/rear/rear_camtype
+
+    chown system radio /sys/class/camera/flash/rear_flash
+
     chown system radio /sys/class/camera/front/front_camfw
     chown system radio /sys/class/camera/front/front_camtype
 
@@ -423,6 +430,7 @@ on fs
 # create camera directory
 # disclaimer: untested but probably right group for N
     mkdir /data/camera 0770 media system
+    mkdir /data/misc/media 0770 media system
 
 # GPS
     chown root system /dev/ttySAC1

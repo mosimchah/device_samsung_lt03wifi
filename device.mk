@@ -168,6 +168,7 @@ PRODUCT_PACKAGES += \
     init.universal5420.rc \
     init.universal5420.usb.rc \
     init.universal5420.wifi.rc \
+    init.universal5420.power.rc \
     ueventd.universal5420.rc
 
 # Radio
@@ -228,6 +229,16 @@ ADDITIONAL_BUILD_PROPERTIES += \
 # Fast mass storage
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vold.umsdirtyratio=50
+
+# Storage
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sys.sdcardfs=true
+
+# Legacy stagefright media
+PRODUCT_PROPERTY_OVERRIDES += \
+    media.stagefright.legacyencoder=true \
+    media.stagefright.less-secure=true
+    
 
 # DALVIK/ART
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxxhdpi-3072-dalvik-heap.mk)
